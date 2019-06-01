@@ -5,7 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.spring.boot.interview.enums.SexoEnum;
+import com.spring.boot.interview.enums.GenderEnum;
 
 public class ValidateUtil implements Serializable {
 
@@ -37,8 +37,8 @@ public class ValidateUtil implements Serializable {
 		return exit;
 	}
 
-	public static SexoEnum stringToSexoEnum(String sexo) {
-		return SexoEnum.get(sexo);
+	public static GenderEnum stringToSexoEnum(String sexo) {
+		return GenderEnum.get(sexo);
 	}
 
 }

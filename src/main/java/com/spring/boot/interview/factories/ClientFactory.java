@@ -9,7 +9,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.spring.boot.interview.dtos.ClientDTO;
-import com.spring.boot.interview.enums.SexoEnum;
+import com.spring.boot.interview.enums.GenderEnum;
 import com.spring.boot.interview.models.ClientModel;
 
 @Service
@@ -46,7 +46,7 @@ public class ClientFactory {
 		saida.setCity(clientDto.getCity());
 		saida.setAge(clientDto.getAge());
 		saida.setDtBirth(stringToDate(clientDto.getDtBirth()));
-		saida.setGender(SexoEnum.get(clientDto.getGender()));
+		saida.setGender(GenderEnum.get(clientDto.getGender()));
 		saida.setName(clientDto.getName());
 		return saida;
 	}

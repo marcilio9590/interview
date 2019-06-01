@@ -3,14 +3,14 @@ package com.spring.boot.interview.enums;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum SexoEnum {
+public enum GenderEnum {
 
 	MASCULINO("Masculino", "M"), FEMININO("Feminino", "F");
 
 	private String descricao;
 	private String cod;
 
-	SexoEnum(String descricaoParam, String codParam) {
+	GenderEnum(String descricaoParam, String codParam) {
 		descricao = descricaoParam;
 		cod = codParam;
 	}
@@ -31,15 +31,15 @@ public enum SexoEnum {
 		this.cod = codParam;
 	}
 
-	private static Map<String, SexoEnum> map;
+	private static Map<String, GenderEnum> map;
 
 	static {
 		map = new HashMap<>();
-		for (SexoEnum v : SexoEnum.values())
+		for (GenderEnum v : GenderEnum.values())
 			map.put(v.getCod(), v);
 	}
 
-	public static SexoEnum get(String sigla) {
+	public static GenderEnum get(String sigla) {
 		if (sigla == null)
 			return null;
 

@@ -7,7 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import com.spring.boot.interview.enums.SexoEnum;
+import com.spring.boot.interview.enums.GenderEnum;
 
 @Entity(name = "Cliente")
 public class ClientModel {
@@ -16,7 +16,7 @@ public class ClientModel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name = "";
-	private SexoEnum gender;
+	private GenderEnum gender;
 	private Date dtBirth;
 	private int age;
 	private String city;
@@ -37,11 +37,11 @@ public class ClientModel {
 		this.name = nameParam;
 	}
 
-	public SexoEnum getGender() {
+	public GenderEnum getGender() {
 		return gender;
 	}
 
-	public void setGender(SexoEnum genderParam) {
+	public void setGender(GenderEnum genderParam) {
 		this.gender = genderParam;
 	}
 

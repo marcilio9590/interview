@@ -1,4 +1,4 @@
-package com.spring.boot.interview.interview;
+package com.spring.boot.interview;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

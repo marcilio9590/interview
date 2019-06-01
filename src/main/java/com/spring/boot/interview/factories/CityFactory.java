@@ -1,9 +1,8 @@
 package com.spring.boot.interview.factories;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 
 import com.spring.boot.interview.dtos.CityDTO;
@@ -12,8 +11,6 @@ import com.spring.boot.interview.models.CityModel;
 @Service
 public class CityFactory {
 
-	private ModelMapper modelMapper = new ModelMapper();
-
 	/**
 	 * Propósito: Converter uma entidade em um DTO que poderá ser exposto ao usuário
 	 * desta API.
@@ -21,8 +18,12 @@ public class CityFactory {
 	 * @param CityModel
 	 * @return CityDTO
 	 */
-	public CityDTO entityToDto(CityModel CityModel) {
-		return modelMapper.map(CityModel, CityDTO.class);
+	public CityDTO entityToDto(CityModel model) {
+		CityDTO saida = new CityDTO();
+		saida.setId(model.getId());
+		saida.setName(model.getName());
+		saida.setState(model.getState());
+		return saida;
 	}
 
 	/**
@@ -32,14 +33,24 @@ public class CityFactory {
 	 * @param CityDTO
 	 * @return CityModel
 	 */
-	public CityModel dtoToEntity(CityDTO CityDTO) {
-		return modelMapper.map(CityDTO, CityModel.class);
+	public CityModel dtoToEntity(CityDTO dto) {
+		CityModel saida = new CityModel();
+		saida.setId(dto.getId());
+		saida.setName(dto.getName());
+		saida.setState(dto.getState());
+		return saida;
 	}
 
-	public List<CityDTO> listEntityToListDto(List<CityModel> listCitiesModel) {
-		java.lang.reflect.Type exit = new TypeToken<List<CityDTO>>() {
-		}.getType();
-		return modelMapper.map(listCitiesModel, exit);
+	public List<CityDTO> listEntityToListDto(List<CityModel> listModel) {
+		List<CityDTO> saida = new ArrayList<CityDTO>();
+		for (CityModel model : listModel) {
+			CityDTO dto = new CityDTO();
+			dto.setId(model.getId());
+			dto.setName(model.getName());
+			dto.setState(model.getState());
+			saida.add(dto);
+		}
+		return saida;
 	}
 
 }

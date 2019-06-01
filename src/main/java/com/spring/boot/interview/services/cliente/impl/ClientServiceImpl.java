@@ -7,8 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.spring.boot.interview.common.InterviewException;
+import com.spring.boot.interview.common.InvalidFieldException;
 import com.spring.boot.interview.dtos.ClientDTO;
+import com.spring.boot.interview.dtos.UpdateClientDTO;
 import com.spring.boot.interview.factories.ClientFactory;
 import com.spring.boot.interview.models.ClientModel;
 import com.spring.boot.interview.repositories.ClientRepository;
@@ -27,72 +28,59 @@ public class ClientServiceImpl implements IClientService {
 
 	@Override
 	@Transactional
-	public ClientDTO save(ClientDTO clienteParam) throws InterviewException {
+	public ClientDTO save(ClientDTO clienteParam) throws InvalidFieldException {
 		ClientDTO entityToDto = null;
-		try {
-			entityToDto = factory.entityToDto(repository.save(factory.dtoToEntity(clienteParam)));
-		} catch (Exception e) {
-			System.out.println(e);
-			throw new InterviewException(e);
-		}
+		ClientModel entity = factory.dtoToEntity(clienteParam);
+		validate(entity);
+		entityToDto = factory.entityToDto(repository.save(entity));
 		return entityToDto;
 	}
 
 	@Override
 	@Transactional
-	public List<ClientDTO> findByName(String clientName) throws InterviewException {
+	public List<ClientDTO> findByName(String clientName) throws InvalidFieldException {
 		List<ClientDTO> exit = null;
-		try {
-			exit = factory.listEntityToListDto(repository.findByNome(clientName));
-		} catch (Exception e) {
-			System.out.println(e);
-			throw new InterviewException(e);
-		}
+		exit = factory.listEntityToListDto(repository.findByNome(clientName));
 		return exit;
 	}
 
 	@Override
 	@Transactional
-	public ClientDTO findById(Long clientId) throws InterviewException {
+	public ClientDTO findById(Long clientId) throws InvalidFieldException {
 		ClientDTO exit = null;
-		try {
-			Optional<ClientModel> model = repository.findById(clientId);
-			if (model.isPresent()) {
-				exit = factory.entityToDto(model.get());
-			}
-		} catch (Exception e) {
-			System.out.println(e);
-			throw new InterviewException(e);
+		Optional<ClientModel> model = repository.findById(clientId);
+		if (model.isPresent()) {
+			exit = factory.entityToDto(model.get());
 		}
 		return exit;
 	}
 
 	@Override
-	public Boolean deleteById(Long clientId) throws InterviewException {
+	public Boolean deleteById(Long clientId) throws InvalidFieldException {
 		Boolean saida = Boolean.FALSE;
-		try {
-			repository.deleteById(clientId);
-			saida = Boolean.TRUE;
-		} catch (Exception e) {
-			System.out.println(e);
-			throw new InterviewException(e);
-		}
+		repository.deleteById(clientId);
+		saida = Boolean.TRUE;
 		return saida;
 	}
 
 	@Override
-	public ClientDTO updateName(ClientDTO client) throws InterviewException {
-		try {
-			Optional<ClientModel> cli = repository.findById(client.getId());
-			if (cli.isPresent()) {
-				cli.get().setName(client.getName());
-				return factory.entityToDto(repository.save(cli.get()));
-			} else {
-				throw new InterviewException("Código do cliente inválido.");
-			}
-		} catch (Exception e) {
-			System.out.println(e);
-			throw new InterviewException(e);
+	@Transactional
+	public ClientDTO updateName(UpdateClientDTO client) throws InvalidFieldException {
+		Optional<ClientModel> cli = repository.findById(client.getId());
+		if (cli.isPresent()) {
+			cli.get().setName(client.getName());
+			return factory.entityToDto(repository.save(cli.get()));
+		} else {
+			throw new InvalidFieldException("Código do cliente inválido.");
+		}
+	}
+
+	private void validate(ClientModel model) throws InvalidFieldException {
+		if (model.getGender() == null) {
+			throw new InvalidFieldException("Sexo Inválido, favor informar MASCULINO ou FEMININO");
+		}
+		if (model.getDtBirth() == null) {
+			throw new InvalidFieldException("Data de Nascimento Inválida, favor informar dd/mm/aaaa");
 		}
 	}
 

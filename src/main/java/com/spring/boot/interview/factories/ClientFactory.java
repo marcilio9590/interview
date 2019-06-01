@@ -71,7 +71,7 @@ public class ClientFactory {
 
 	private Converter<String, Date> stringToDate = new AbstractConverter<String, Date>() {
 		protected Date convert(String source) {
-			Date exit = new Date();
+			Date exit = null;
 			try {
 				exit = new SimpleDateFormat("dd/MM/yyyy").parse(source);
 			} catch (ParseException e) {

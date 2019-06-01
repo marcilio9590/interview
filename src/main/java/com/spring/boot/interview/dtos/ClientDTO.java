@@ -1,12 +1,18 @@
 package com.spring.boot.interview.dtos;
 
+import javax.validation.constraints.NotEmpty;
+
 public class ClientDTO {
 
 	private Long id;
+	@NotEmpty
 	private String name = "";
+	@NotEmpty
 	private String gender;
+	@NotEmpty
 	private String dtBirth;
 	private int age;
+	@NotEmpty
 	private String city = "";
 
 	public Long getId() {

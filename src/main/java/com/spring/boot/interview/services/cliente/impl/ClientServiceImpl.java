@@ -39,7 +39,7 @@ public class ClientServiceImpl implements IClientService {
 	@Transactional
 	public List<ClientDTO> findByName(String clientName) throws InvalidFieldException {
 		List<ClientDTO> exit = null;
-		exit = factory.listEntityToListDto(repository.findByName(clientName));
+		exit = factory.listEntityToListDto(repository.findByName(clientName.toLowerCase()));
 		return exit;
 	}
 

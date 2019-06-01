@@ -34,12 +34,12 @@ public class CityServiceImpl implements ICityService {
 
 	@Override
 	public List<CityDTO> findByName(String name) throws InvalidFieldException {
-		return factory.listEntityToListDto(repository.findByName(name));
+		return factory.listEntityToListDto(repository.findByName(name.toLowerCase()));
 	}
 
 	@Override
 	public List<CityDTO> findByState(String state) throws InvalidFieldException {
-		return factory.listEntityToListDto(repository.findByState(state));
+		return factory.listEntityToListDto(repository.findByState(state.toLowerCase()));
 	}
 
 	private void validate(CityDTO city) throws InvalidFieldException {

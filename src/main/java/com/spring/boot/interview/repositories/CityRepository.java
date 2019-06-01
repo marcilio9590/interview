@@ -11,9 +11,9 @@ import com.spring.boot.interview.models.CityModel;
 @Repository
 public interface CityRepository extends CrudRepository<CityModel, Long> {
 
-	@Query("select c from Cidade c where c.name like %?1%")
+	@Query("select c from Cidade c where lower(c.name) like %?1%")
 	List<CityModel> findByName(String name);
 
-	@Query("select c from Cidade c where c.state like %?1%")
+	@Query("select c from Cidade c where lower(c.state) like %?1%")
 	List<CityModel> findByState(String state);
 }

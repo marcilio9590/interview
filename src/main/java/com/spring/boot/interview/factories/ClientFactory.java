@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import com.spring.boot.interview.dtos.ClientDTO;
 import com.spring.boot.interview.enums.SexoEnum;
-import com.spring.boot.interview.models.CityModel;
 import com.spring.boot.interview.models.ClientModel;
 
 @Service
@@ -26,7 +25,7 @@ public class ClientFactory {
 	public ClientDTO entityToDto(ClientModel model) {
 		ClientDTO saida = new ClientDTO();
 		saida.setId(model.getId());
-		saida.setCity(model.getCity().getName());
+		saida.setCity(model.getCity());
 		saida.setAge(model.getAge());
 		saida.setDtBirth(dateToString(model.getDtBirth()));
 		saida.setGender(model.getGender().getDescricao());
@@ -44,9 +43,7 @@ public class ClientFactory {
 	public ClientModel dtoToEntity(ClientDTO clientDto) {
 		ClientModel saida = new ClientModel();
 		saida.setId(clientDto.getId());
-		CityModel city = new CityModel();
-		city.setName(clientDto.getCity());
-		saida.setCity(city);
+		saida.setCity(clientDto.getCity());
 		saida.setAge(clientDto.getAge());
 		saida.setDtBirth(stringToDate(clientDto.getDtBirth()));
 		saida.setGender(SexoEnum.get(clientDto.getGender()));
@@ -59,7 +56,7 @@ public class ClientFactory {
 		for (ClientModel model : listClientsModel) {
 			ClientDTO dto = new ClientDTO();
 			dto.setId(model.getId());
-			dto.setCity(model.getCity().getName());
+			dto.setCity(model.getCity());
 			dto.setAge(model.getAge());
 			dto.setDtBirth(dateToString(model.getDtBirth()));
 			dto.setGender(model.getGender().getDescricao());

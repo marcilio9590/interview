@@ -2,12 +2,10 @@ package com.spring.boot.interview.models;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
 import com.spring.boot.interview.enums.SexoEnum;
 
@@ -21,9 +19,7 @@ public class ClientModel {
 	private SexoEnum gender;
 	private Date dtBirth;
 	private int age;
-
-	@OneToOne(cascade = CascadeType.ALL)
-	private CityModel city;
+	private String city;
 
 	public Long getId() {
 		return id;
@@ -65,11 +61,11 @@ public class ClientModel {
 		this.age = ageParam;
 	}
 
-	public CityModel getCity() {
+	public String getCity() {
 		return city;
 	}
 
-	public void setCity(CityModel cityParam) {
+	public void setCity(String cityParam) {
 		this.city = cityParam;
 	}
 

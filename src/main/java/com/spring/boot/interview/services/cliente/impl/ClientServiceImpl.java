@@ -82,7 +82,18 @@ public class ClientServiceImpl implements IClientService {
 
 	@Override
 	public ClientDTO updateName(ClientDTO client) throws InterviewException {
-		return save(client);
+		try {
+			Optional<ClientModel> cli = repository.findById(client.getId());
+			if (cli.isPresent()) {
+				cli.get().setName(client.getName());
+				return factory.entityToDto(repository.save(cli.get()));
+			} else {
+				throw new InterviewException("Código do cliente inválido.");
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+			throw new InterviewException(e);
+		}
 	}
 
 }

@@ -1,8 +1,6 @@
 package com.spring.boot.interview.common;
 
-import org.springframework.http.HttpStatus;
-
-public class InterviewException extends Exception implements IInterviewException {
+public class InterviewException extends Exception {
 
 	private static final long serialVersionUID = -8071330776903394204L;
 
@@ -20,15 +18,5 @@ public class InterviewException extends Exception implements IInterviewException
 
 	public InterviewException() {
 		super();
-	}
-
-	@Override
-	public HttpStatus getStatus() {
-		return HttpStatus.NO_CONTENT;
-	}
-
-	@Override
-	public Boolean mustShowThrowable() {
-		return Boolean.TRUE;
 	}
 }

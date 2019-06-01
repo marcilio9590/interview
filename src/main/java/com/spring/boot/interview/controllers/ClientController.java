@@ -49,9 +49,9 @@ public class ClientController {
 		return clienteService.deleteById(id);
 	}
 
-//	@PutMapping
-//	public ClientDTO updateClient(@RequestBody ClientDTO client) throws InterviewException {
-//		return clienteService.updateName(client);
-//	}
+	@PutMapping
+	public ClientDTO updateClientName(@RequestBody ClientDTO client) throws InterviewException {
+		return clienteService.updateName(client);
+	}
 
 }

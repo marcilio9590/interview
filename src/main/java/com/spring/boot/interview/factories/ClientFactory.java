@@ -1,5 +1,6 @@
 package com.spring.boot.interview.factories;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,19 +21,38 @@ public class ClientFactory {
 
 	private ModelMapper modelMapper = new ModelMapper();
 
+	public ClientFactory() {
+		modelMapper.addConverter(stringToDate);
+		modelMapper.addConverter(dateToString);
+		modelMapper.addConverter(sexoEnumToString);
+	}
+
+	/**
+	 * Propósito: Converter uma entidade em um DTO que poderá ser exposto ao usuário
+	 * desta API.
+	 * 
+	 * @param clientModel
+	 * @return ClientDTO
+	 */
 	public ClientDTO entityToDto(ClientModel clientModel) {
 		return modelMapper.map(clientModel, ClientDTO.class);
 	}
 
+	/**
+	 * Propósito: Converter um DTO em uma entidade que poderá ser usada para salvar
+	 * no banco de dados.
+	 * 
+	 * @param clientDto
+	 * @return ClientModel
+	 */
 	public ClientModel dtoToEntity(ClientDTO clientDto) {
+
 		return modelMapper.map(clientDto, ClientModel.class);
 	}
 
 	public List<ClientDTO> listEntityToListDto(List<ClientModel> listClientsModel) {
 		java.lang.reflect.Type exit = new TypeToken<List<ClientDTO>>() {
 		}.getType();
-		modelMapper.addConverter(dateToString);
-		modelMapper.addConverter(sexoEnumToString);
 		return modelMapper.map(listClientsModel, exit);
 	}
 
@@ -46,6 +66,18 @@ public class ClientFactory {
 		protected String convert(Date source) {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			return sdf.format(source);
+		}
+	};
+
+	private Converter<String, Date> stringToDate = new AbstractConverter<String, Date>() {
+		protected Date convert(String source) {
+			Date exit = new Date();
+			try {
+				exit = new SimpleDateFormat("dd/MM/yyyy").parse(source);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			return exit;
 		}
 	};
 

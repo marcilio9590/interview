@@ -5,14 +5,14 @@ import javax.validation.constraints.NotEmpty;
 public class ClientDTO {
 
 	private Long id;
-	@NotEmpty
+	@NotEmpty(message = "Nome Inválido")
 	private String name = "";
-	@NotEmpty
+	@NotEmpty(message = "Sexo Inválido")
 	private String gender;
-	@NotEmpty
+	@NotEmpty(message = "Data de Nascimento Inválida")
 	private String dtBirth;
 	private int age;
-	@NotEmpty
+	@NotEmpty(message = "Cidade Inválida")
 	private String city = "";
 
 	public Long getId() {

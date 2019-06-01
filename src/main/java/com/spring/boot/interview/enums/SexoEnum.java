@@ -1,13 +1,16 @@
 package com.spring.boot.interview.enums;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum SexoEnum {
 
-	MASCULINO("Masculino", 1), FEMININO("Feminino", 2);
+	MASCULINO("Masculino", "M"), FEMININO("Feminino", "F");
 
 	private String descricao;
-	private long cod;
+	private String cod;
 
-	SexoEnum(String descricaoParam, long codParam) {
+	SexoEnum(String descricaoParam, String codParam) {
 		descricao = descricaoParam;
 		cod = codParam;
 	}
@@ -20,12 +23,27 @@ public enum SexoEnum {
 		this.descricao = descricaoParam;
 	}
 
-	public long getCod() {
+	public String getCod() {
 		return cod;
 	}
 
-	public void setCod(long codParam) {
+	public void setCod(String codParam) {
 		this.cod = codParam;
+	}
+
+	private static Map<String, SexoEnum> map;
+
+	static {
+		map = new HashMap<>();
+		for (SexoEnum v : SexoEnum.values())
+			map.put(v.getCod(), v);
+	}
+
+	public static SexoEnum get(String sigla) {
+		if (sigla == null)
+			return null;
+
+		return map.get(sigla.toUpperCase());
 	}
 
 }

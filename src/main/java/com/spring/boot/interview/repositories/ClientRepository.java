@@ -12,6 +12,6 @@ import com.spring.boot.interview.models.ClientModel;
 public interface ClientRepository extends CrudRepository<ClientModel, Long> {
 
 	@Query("select c from Cliente c where c.name like %?1%")
-	List<ClientModel> findByNome(String nome);
+	List<ClientModel> findByName(String nome);
 
 }

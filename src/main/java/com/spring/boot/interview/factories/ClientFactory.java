@@ -6,36 +6,32 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.modelmapper.AbstractConverter;
-import org.modelmapper.Converter;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 
 import com.spring.boot.interview.dtos.ClientDTO;
 import com.spring.boot.interview.enums.SexoEnum;
+import com.spring.boot.interview.models.CityModel;
 import com.spring.boot.interview.models.ClientModel;
 
 @Service
 public class ClientFactory {
 
-	private ModelMapper modelMapper = new ModelMapper();
-
-	public ClientFactory() {
-		modelMapper.addConverter(stringToDate);
-		modelMapper.addConverter(dateToString);
-		modelMapper.addConverter(sexoEnumToString);
-	}
-
 	/**
 	 * Propósito: Converter uma entidade em um DTO que poderá ser exposto ao usuário
 	 * desta API.
 	 * 
-	 * @param clientModel
+	 * @param model
 	 * @return ClientDTO
 	 */
-	public ClientDTO entityToDto(ClientModel clientModel) {
-		return modelMapper.map(clientModel, ClientDTO.class);
+	public ClientDTO entityToDto(ClientModel model) {
+		ClientDTO saida = new ClientDTO();
+		saida.setId(model.getId());
+		saida.setCity(model.getCity().getName());
+		saida.setAge(model.getAge());
+		saida.setDtBirth(dateToString(model.getDtBirth()));
+		saida.setGender(model.getGender().getDescricao());
+		saida.setName(model.getName());
+		return saida;
 	}
 
 	/**
@@ -46,51 +42,45 @@ public class ClientFactory {
 	 * @return ClientModel
 	 */
 	public ClientModel dtoToEntity(ClientDTO clientDto) {
-
-		return modelMapper.map(clientDto, ClientModel.class);
+		ClientModel saida = new ClientModel();
+		saida.setId(clientDto.getId());
+		CityModel city = new CityModel();
+		city.setName(clientDto.getCity());
+		saida.setCity(city);
+		saida.setAge(clientDto.getAge());
+		saida.setDtBirth(stringToDate(clientDto.getDtBirth()));
+		saida.setGender(SexoEnum.get(clientDto.getGender()));
+		saida.setName(clientDto.getName());
+		return saida;
 	}
 
 	public List<ClientDTO> listEntityToListDto(List<ClientModel> listClientsModel) {
-		java.lang.reflect.Type exit = new TypeToken<List<ClientDTO>>() {
-		}.getType();
-		return modelMapper.map(listClientsModel, exit);
+		List<ClientDTO> saida = new ArrayList<ClientDTO>();
+		for (ClientModel model : listClientsModel) {
+			ClientDTO dto = new ClientDTO();
+			dto.setId(model.getId());
+			dto.setCity(model.getCity().getName());
+			dto.setAge(model.getAge());
+			dto.setDtBirth(dateToString(model.getDtBirth()));
+			dto.setGender(model.getGender().getDescricao());
+			dto.setName(model.getName());
+			saida.add(dto);
+		}
+		return saida;
 	}
 
-	public List<ClientModel> lisDtoToListEntity(List<ClientDTO> listClientsDto) {
-		List<ClientModel> exit = new ArrayList<ClientModel>();
-		modelMapper.map(listClientsDto, exit);
+	private String dateToString(Date source) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		return sdf.format(source);
+	}
+
+	private Date stringToDate(String source) {
+		Date exit = null;
+		try {
+			exit = new SimpleDateFormat("dd/MM/yyyy").parse(source);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		return exit;
 	}
-
-	private Converter<Date, String> dateToString = new AbstractConverter<Date, String>() {
-		protected String convert(Date source) {
-			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-			return sdf.format(source);
-		}
-	};
-
-	private Converter<String, Date> stringToDate = new AbstractConverter<String, Date>() {
-		protected Date convert(String source) {
-			Date exit = null;
-			try {
-				exit = new SimpleDateFormat("dd/MM/yyyy").parse(source);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			return exit;
-		}
-	};
-
-	private Converter<SexoEnum, String> sexoEnumToString = new AbstractConverter<SexoEnum, String>() {
-		protected String convert(SexoEnum source) {
-			switch (source) {
-			case MASCULINO:
-				return SexoEnum.MASCULINO.getDescricao();
-			case FEMININO:
-				SexoEnum.FEMININO.getDescricao();
-			default:
-				return "";
-			}
-		}
-	};
 }

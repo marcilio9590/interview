@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.boot.interview.common.InvalidFieldException;
+import com.spring.boot.interview.common.ValidateUtil;
 import com.spring.boot.interview.dtos.ClientDTO;
 import com.spring.boot.interview.dtos.UpdateClientDTO;
 import com.spring.boot.interview.factories.ClientFactory;
@@ -29,18 +30,16 @@ public class ClientServiceImpl implements IClientService {
 	@Override
 	@Transactional
 	public ClientDTO save(ClientDTO clienteParam) throws InvalidFieldException {
-		ClientDTO entityToDto = null;
+		validate(clienteParam);
 		ClientModel entity = factory.dtoToEntity(clienteParam);
-		validate(entity);
-		entityToDto = factory.entityToDto(repository.save(entity));
-		return entityToDto;
+		return factory.entityToDto(repository.save(entity));
 	}
 
 	@Override
 	@Transactional
 	public List<ClientDTO> findByName(String clientName) throws InvalidFieldException {
 		List<ClientDTO> exit = null;
-		exit = factory.listEntityToListDto(repository.findByNome(clientName));
+		exit = factory.listEntityToListDto(repository.findByName(clientName));
 		return exit;
 	}
 
@@ -75,11 +74,11 @@ public class ClientServiceImpl implements IClientService {
 		}
 	}
 
-	private void validate(ClientModel model) throws InvalidFieldException {
-		if (model.getGender() == null) {
-			throw new InvalidFieldException("Sexo Inválido, favor informar MASCULINO ou FEMININO");
+	private void validate(ClientDTO model) throws InvalidFieldException {
+		if (ValidateUtil.stringToSexoEnum(model.getGender()) == null) {
+			throw new InvalidFieldException("Sexo Inválido, favor informar M ou F");
 		}
-		if (model.getDtBirth() == null) {
+		if (ValidateUtil.stringToDate(model.getDtBirth()) == null) {
 			throw new InvalidFieldException("Data de Nascimento Inválida, favor informar dd/mm/aaaa");
 		}
 	}

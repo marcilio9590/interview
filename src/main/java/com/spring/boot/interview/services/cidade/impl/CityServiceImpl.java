@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.spring.boot.interview.common.InvalidFieldException;
 import com.spring.boot.interview.common.ValidateUtil;
 import com.spring.boot.interview.dtos.CityDTO;
-import com.spring.boot.interview.enums.StateEnum;
 import com.spring.boot.interview.factories.CityFactory;
 import com.spring.boot.interview.models.CityModel;
 import com.spring.boot.interview.repositories.CityRepository;
@@ -46,11 +45,7 @@ public class CityServiceImpl implements ICityService {
 		if (ValidateUtil.isEmptyOrNull(city.getName())) {
 			throw new InvalidFieldException("Nome da cidade inválido.");
 		}
-		validateState(city.getState());
-	}
-
-	private void validateState(String state) throws InvalidFieldException {
-		if (ValidateUtil.isEmptyOrNull(state) || ValidateUtil.isEmptyOrNull(StateEnum.get(state))) {
+		if (!ValidateUtil.isStateValid(city.getState())) {
 			throw new InvalidFieldException("Sigla do estado inválida.");
 		}
 	}

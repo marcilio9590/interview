@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.spring.boot.interview.enums.GenderEnum;
+import com.spring.boot.interview.enums.StateEnum;
 
 public class ValidateUtil implements Serializable {
 
@@ -39,6 +40,14 @@ public class ValidateUtil implements Serializable {
 
 	public static GenderEnum stringToSexoEnum(String sexo) {
 		return GenderEnum.get(sexo);
+	}
+
+	public static boolean isStateValid(String state) {
+		if (ValidateUtil.isEmptyOrNull(state) || ValidateUtil.isEmptyOrNull(StateEnum.get(state))) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 }

@@ -74,12 +74,29 @@ public class ClientServiceImpl implements IClientService {
 		}
 	}
 
-	private void validate(ClientDTO model) throws InvalidFieldException {
-		if (ValidateUtil.stringToSexoEnum(model.getGender()) == null) {
+	private void validate(ClientDTO dto) throws InvalidFieldException {
+		if (ValidateUtil.stringToSexoEnum(dto.getGender()) == null) {
 			throw new InvalidFieldException("Sexo Inválido, favor informar M ou F");
 		}
-		if (ValidateUtil.stringToDate(model.getDtBirth()) == null) {
+		if (ValidateUtil.stringToDate(dto.getDtBirth()) == null) {
 			throw new InvalidFieldException("Data de Nascimento Inválida, favor informar dd/mm/aaaa");
+		}
+		if (!ValidateUtil.isEmptyOrNull(dto.getCity())) {
+			validateCity(dto.getCity().getName());
+			validateState(dto.getCity().getState());
+		}
+	}
+
+	private void validateState(String state) throws InvalidFieldException {
+		if (!ValidateUtil.isStateValid(state)) {
+			throw new InvalidFieldException("Estado Inválida.");
+		}
+
+	}
+
+	private void validateCity(String name) throws InvalidFieldException {
+		if (ValidateUtil.isEmptyOrNull(name)) {
+			throw new InvalidFieldException("Cidade Inválida.");
 		}
 	}
 

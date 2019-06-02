@@ -12,8 +12,7 @@ public class ClientDTO {
 	@NotEmpty(message = "Data de Nascimento Inválida")
 	private String dtBirth;
 	private int age;
-	@NotEmpty(message = "Cidade Inválida")
-	private String city = "";
+	private CityDTO city;
 
 	public Long getId() {
 		return id;
@@ -55,11 +54,11 @@ public class ClientDTO {
 		this.age = age;
 	}
 
-	public String getCity() {
+	public CityDTO getCity() {
 		return city;
 	}
 
-	public void setCity(String city) {
+	public void setCity(CityDTO city) {
 		this.city = city;
 	}
 

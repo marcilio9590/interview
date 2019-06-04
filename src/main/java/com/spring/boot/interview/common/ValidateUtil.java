@@ -31,7 +31,8 @@ public class ValidateUtil implements Serializable {
 	public static Date stringToDate(String date) {
 		Date exit = null;
 		try {
-			exit = new SimpleDateFormat("dd/MM/yyyy").parse(date);
+			if (!isEmptyOrNull(date))
+				exit = new SimpleDateFormat("dd/MM/yyyy").parse(date);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

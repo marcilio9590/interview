@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.boot.interview.common.InvalidFieldException;
-import com.spring.boot.interview.common.ValidateUtil;
+import com.spring.boot.interview.common.InterviewUtil;
 import com.spring.boot.interview.dtos.ClientDTO;
 import com.spring.boot.interview.dtos.UpdateClientDTO;
 import com.spring.boot.interview.factories.ClientFactory;
@@ -38,9 +38,7 @@ public class ClientServiceImpl implements IClientService {
 	@Override
 	@Transactional
 	public List<ClientDTO> findByName(String clientName) throws InvalidFieldException {
-		List<ClientDTO> exit = null;
-		exit = factory.listEntityToListDto(repository.findByName(clientName.toLowerCase()));
-		return exit;
+		return factory.listEntityToListDto(repository.findByName(clientName.toLowerCase()));
 	}
 
 	@Override
@@ -75,27 +73,27 @@ public class ClientServiceImpl implements IClientService {
 	}
 
 	private void validate(ClientDTO dto) throws InvalidFieldException {
-		if (ValidateUtil.stringToSexoEnum(dto.getGender()) == null) {
+		if (InterviewUtil.stringToSexoEnum(dto.getGender()) == null) {
 			throw new InvalidFieldException("Sexo Inválido, favor informar M ou F");
 		}
-		if (ValidateUtil.stringToDate(dto.getDtBirth()) == null) {
+		if (InterviewUtil.stringToDate(dto.getDtBirth()) == null) {
 			throw new InvalidFieldException("Data de Nascimento Inválida, favor informar dd/mm/aaaa");
 		}
-		if (!ValidateUtil.isEmptyOrNull(dto.getCity())) {
+		if (!InterviewUtil.isEmptyOrNull(dto.getCity())) {
 			validateCity(dto.getCity().getName());
 			validateState(dto.getCity().getState());
 		}
 	}
 
 	private void validateState(String state) throws InvalidFieldException {
-		if (!ValidateUtil.isStateValid(state)) {
+		if (!InterviewUtil.isStateValid(state)) {
 			throw new InvalidFieldException("Estado Inválida.");
 		}
 
 	}
 
 	private void validateCity(String name) throws InvalidFieldException {
-		if (ValidateUtil.isEmptyOrNull(name)) {
+		if (InterviewUtil.isEmptyOrNull(name)) {
 			throw new InvalidFieldException("Cidade Inválida.");
 		}
 	}

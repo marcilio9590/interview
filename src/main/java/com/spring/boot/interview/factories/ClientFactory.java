@@ -1,15 +1,12 @@
 package com.spring.boot.interview.factories;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.spring.boot.interview.common.ValidateUtil;
+import com.spring.boot.interview.common.InterviewUtil;
 import com.spring.boot.interview.dtos.ClientDTO;
 import com.spring.boot.interview.enums.GenderEnum;
 import com.spring.boot.interview.models.ClientModel;
@@ -31,10 +28,10 @@ public class ClientFactory {
 		ClientDTO saida = new ClientDTO();
 		saida.setId(model.getId());
 		saida.setAge(model.getAge());
-		if (!ValidateUtil.isEmptyOrNull(model.getCity())) {
+		if (!InterviewUtil.isEmptyOrNull(model.getCity())) {
 			saida.setCity(cityFactory.entityToDto(model.getCity()));
 		}
-		saida.setDtBirth(dateToString(model.getDtBirth()));
+		saida.setDtBirth(InterviewUtil.dateToString(model.getDtBirth()));
 		saida.setGender(model.getGender().getDescricao());
 		saida.setName(model.getName());
 		return saida;
@@ -50,11 +47,11 @@ public class ClientFactory {
 	public ClientModel dtoToEntity(ClientDTO clientDto) {
 		ClientModel saida = new ClientModel();
 		saida.setId(clientDto.getId());
-		if (!ValidateUtil.isEmptyOrNull(clientDto.getCity())) {
+		if (!InterviewUtil.isEmptyOrNull(clientDto.getCity())) {
 			saida.setCity(cityFactory.dtoToEntity(clientDto.getCity()));
 		}
 		saida.setAge(clientDto.getAge());
-		saida.setDtBirth(stringToDate(clientDto.getDtBirth()));
+		saida.setDtBirth(InterviewUtil.stringToDate(clientDto.getDtBirth()));
 		saida.setGender(GenderEnum.get(clientDto.getGender()));
 		saida.setName(clientDto.getName());
 		return saida;
@@ -65,30 +62,15 @@ public class ClientFactory {
 		for (ClientModel model : listClientsModel) {
 			ClientDTO dto = new ClientDTO();
 			dto.setId(model.getId());
-			if (!ValidateUtil.isEmptyOrNull(model.getCity())) {
+			if (!InterviewUtil.isEmptyOrNull(model.getCity())) {
 				dto.setCity(cityFactory.entityToDto(model.getCity()));
 			}
 			dto.setAge(model.getAge());
-			dto.setDtBirth(dateToString(model.getDtBirth()));
+			dto.setDtBirth(InterviewUtil.dateToString(model.getDtBirth()));
 			dto.setGender(model.getGender().getDescricao());
 			dto.setName(model.getName());
 			saida.add(dto);
 		}
 		return saida;
-	}
-
-	private String dateToString(Date source) {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		return sdf.format(source);
-	}
-
-	private Date stringToDate(String source) {
-		Date exit = null;
-		try {
-			exit = new SimpleDateFormat("dd/MM/yyyy").parse(source);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return exit;
 	}
 }

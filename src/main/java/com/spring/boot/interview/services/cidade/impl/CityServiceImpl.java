@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.boot.interview.common.InvalidFieldException;
-import com.spring.boot.interview.common.ValidateUtil;
+import com.spring.boot.interview.common.InterviewUtil;
 import com.spring.boot.interview.dtos.CityDTO;
 import com.spring.boot.interview.factories.CityFactory;
 import com.spring.boot.interview.models.CityModel;
@@ -42,10 +42,10 @@ public class CityServiceImpl implements ICityService {
 	}
 
 	private void validate(CityDTO city) throws InvalidFieldException {
-		if (ValidateUtil.isEmptyOrNull(city.getName())) {
+		if (InterviewUtil.isEmptyOrNull(city.getName())) {
 			throw new InvalidFieldException("Nome da cidade inválido.");
 		}
-		if (!ValidateUtil.isStateValid(city.getState())) {
+		if (!InterviewUtil.isStateValid(city.getState())) {
 			throw new InvalidFieldException("Sigla do estado inválida.");
 		}
 	}

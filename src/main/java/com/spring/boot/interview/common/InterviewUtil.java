@@ -8,7 +8,7 @@ import java.util.Date;
 import com.spring.boot.interview.enums.GenderEnum;
 import com.spring.boot.interview.enums.StateEnum;
 
-public class ValidateUtil implements Serializable {
+public class InterviewUtil implements Serializable {
 
 	private static final long serialVersionUID = 7261616882217589397L;
 
@@ -44,11 +44,16 @@ public class ValidateUtil implements Serializable {
 	}
 
 	public static boolean isStateValid(String state) {
-		if (ValidateUtil.isEmptyOrNull(state) || ValidateUtil.isEmptyOrNull(StateEnum.get(state))) {
+		if (InterviewUtil.isEmptyOrNull(state) || InterviewUtil.isEmptyOrNull(StateEnum.get(state))) {
 			return false;
 		} else {
 			return true;
 		}
+	}
+
+	public static String dateToString(Date source) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		return sdf.format(source);
 	}
 
 }
